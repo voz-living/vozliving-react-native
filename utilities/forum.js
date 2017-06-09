@@ -20,6 +20,10 @@ export async function getForumList() {
     const response = await GET(FORUM_URL);
     return parseForums(response);
   } catch (error) {
+    console.log({
+      message: 'Can not get forum list!',
+      error: error.toString(),
+    });
     return [];
   }
 }
