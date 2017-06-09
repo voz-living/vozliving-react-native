@@ -1,0 +1,28 @@
+{
+  "name": "voz-living-react-native",
+  "version": "0.0.0",
+  "description": "VOZLiving react native app",
+  "author": "vozliving",
+  "main": "main.js",
+  "scripts": {
+    "test": "node node_modules/jest/bin/jest.js"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "dependencies": {
+    "@expo/ex-navigation": "~3.0.0",
+    "@expo/samples": "~1.0.3",
+    "cheerio-without-node-native": "^0.20.2",
+    "expo": "17.0.0",
+    "lodash": "^4.17.4",
+    "react": "16.0.0-alpha.6",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-17.0.0.tar.gz",
+    "react-native-elements": "^0.12.2",
+    "react-native-htmlview": "^0.9.0",
+    "whatwg-fetch": "^2.0.3"
+  },
+  "devDependencies": {
+    "jest-expo": "~1.0.1"
+  }
+}
