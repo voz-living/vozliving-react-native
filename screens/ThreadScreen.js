@@ -41,7 +41,7 @@ export default class ThreadScreen extends Component {
     return (
       <ScrollView>
         {!isLoading ? 
-          <List>
+          <List containerStyle={{ marginTop: 0 }}>
             {posts.map((post, idx) => (
               <ListItem
                 roundAvatar

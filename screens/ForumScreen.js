@@ -1,6 +1,6 @@
 import Expo from 'expo';
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, RefreshControl } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import { getThreadList } from '../utilities/thread';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -35,23 +35,33 @@ export default class ForumScreen extends React.Component {
     this.props.navigator.push('thread', { id, title });
   }
 
+  onRefresh() {
+    this.loadThreadList(this.props.route.params.id);
+  }
+
   render() {
     const { isLoading, threads } = this.state;
     return (
-      <ScrollView>
-        {!isLoading ?
-          <List>
-            {threads.map(thread => (
-              <ListItem
-                key={thread.id}
-                title={thread.title}
-                onPress={() => this.openThread(thread)}
-              />
-            ))}
-          </List>
-          : <Spinner visible={isLoading} />
-        }
-      </ScrollView>
+      !isLoading ?
+      <List containerStyle={{ marginTop: 0 }}>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoading}
+              onRefresh={this.onRefresh.bind(this)}
+            />
+          }
+        >
+          {threads.map(thread => (
+            <ListItem
+              key={thread.id}
+              title={thread.title}
+              onPress={() => this.openThread(thread)}
+            />
+          ))}
+        </ScrollView>
+      </List>
+      : <Spinner visible={isLoading} />
     );
   }
 }
