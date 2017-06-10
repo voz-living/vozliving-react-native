@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { Text, Button, View } from 'react-native';
+import { Text, Button, View, StyleSheet } from 'react-native';
+
+const styles = StyleSheet.create({
+  button: { flexGrow: 2, height: 30, minWidth: 50 },
+  text: { flexGrow: 2, height: 30, alignItems: 'center', justifyContent: 'center' },
+  container: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center' },
+})
 
 export default class Pagging extends Component {
   static defaultProps = {
@@ -18,32 +24,32 @@ export default class Pagging extends Component {
     } = this.props;
 
     return (
-      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+      <View style={styles.container}>
         <Button
           title="<<" onPress={onFirstPageClick}
           accessibilityLabel="Trang đầu"
-          style={{ flex: 1, height: 30 }}
+          style={styles.button}
           disabled={currentPage < 2}
         />
         <Button
           title="<" onPress={onPrevPageClick}
           accessibilityLabel="Trang trước"
-          style={{ flex: 1, height: 30 }}
+          style={styles.button}
           disabled={currentPage < 2}
         />
-        <View style={{ flex: 1, height: 30, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={styles.text}>
           <Text>{currentPage} / {maxPage}</Text>
         </View>
         <Button
           title=">" onPress={onNextPageClick}
           accessibilityLabel="Trang tiếp theo"
-          style={{ flex: 1, height: 30 }}
+          style={styles.button}
           disabled={currentPage + 1 > maxPage}
         />
         <Button
           title=">>" onPress={onLastPageClick}
           accessibilityLabel="Trang cuối"
-          style={{ flex: 1, height: 30 }}
+          style={styles.button}
           disabled={currentPage + 1 > maxPage}
         />
       </View>
