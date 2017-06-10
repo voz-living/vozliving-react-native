@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
-import { getThread } from '../utilities/thread';
+import { getPostList } from '../utilities/post';
 import HTMLView from 'react-native-htmlview';
 
 export default class ThreadScreen extends Component {
@@ -24,13 +24,13 @@ export default class ThreadScreen extends Component {
   }
 
   async loadPosts(id, page) {
-    const posts = await getThread(id, page);
+    const posts = await getPostList(id, page);
     this.setState({ posts });
   }
 
   getFullUrl(imgUrl) {
     if (!imgUrl) return null;
-    return `https://vozforums.com/${imgUrl}`;
+    return { uri: `https://vozforums.com/${imgUrl}` };
   }
 
   render() {
@@ -42,7 +42,7 @@ export default class ThreadScreen extends Component {
               roundAvatar
               hideChevron
               key={idx}
-              avatar={{ uri: this.getFullUrl(post.user.img) }}
+              avatar={this.getFullUrl(post.user.img)}
               title={post.user.name || 'Unknown user name'}
               subtitle={<HTMLView value={post.content.html} />}
             />

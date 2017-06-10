@@ -17,16 +17,20 @@ export default class RootNavigation extends React.Component {
     // this._notificationSubscription && this._notificationSubscription.remove();
   }
 
+  // render() {
+  //   return (
+  //     <TabNavigation tabBarHeight={56} initialTab="home">
+  //       <TabNavigationItem
+  //         id="home"
+  //         renderIcon={isSelected => this._renderIcon('home', isSelected)}>
+  //         <StackNavigation initialRoute="home" />
+  //       </TabNavigationItem>
+  //     </TabNavigation>
+  //   );
+  // }
+
   render() {
-    return (
-      <TabNavigation tabBarHeight={56} initialTab="home">
-        <TabNavigationItem
-          id="home"
-          renderIcon={isSelected => this._renderIcon('home', isSelected)}>
-          <StackNavigation initialRoute="home" />
-        </TabNavigationItem>
-      </TabNavigation>
-    );
+    return <StackNavigation initialRoute="home" />;
   }
 
   _renderIcon(name, isSelected) {
