@@ -19,7 +19,7 @@ export default class ThreadScreen extends Component {
     this.state = {
       posts: [],
       isLoading: true,
-      maxPage: Infinity,
+      maxPage: 1,
       currentPage: 1,
     }
   }

@@ -20,7 +20,7 @@ export default class ForumScreen extends React.Component {
     this.state = {
       threads: [],
       isLoading: true,
-      maxPage: Infinity,
+      maxPage: 1,
       currentPage: 1,
     }
   }
