@@ -3,6 +3,7 @@ import { ScrollView } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import { getPostList } from '../utilities/post';
 import HTMLView from 'react-native-htmlview';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default class ThreadScreen extends Component {
   static route = {
@@ -16,6 +17,7 @@ export default class ThreadScreen extends Component {
     super(props);
     this.state = {
       posts: [],
+      isLoading: true,
     }
   }
   
@@ -24,8 +26,9 @@ export default class ThreadScreen extends Component {
   }
 
   async loadPosts(id, page) {
+    this.setState({ isLoading: true });
     const posts = await getPostList(id, page);
-    this.setState({ posts });
+    this.setState({ posts, isLoading: false });
   }
 
   getFullUrl(imgUrl) {
@@ -34,20 +37,24 @@ export default class ThreadScreen extends Component {
   }
 
   render() {
+    const { isLoading, posts } = this.state;
     return (
       <ScrollView>
-        <List containerStyle={{ marginBottom: 20 }}>
-          {this.state.posts.map((post, idx) => (
-            <ListItem
-              roundAvatar
-              hideChevron
-              key={idx}
-              avatar={this.getFullUrl(post.user.img)}
-              title={post.user.name || 'Unknown user name'}
-              subtitle={<HTMLView value={post.content.html} />}
-            />
-          ))}
-        </List>
+        {!isLoading ? 
+          <List>
+            {posts.map((post, idx) => (
+              <ListItem
+                roundAvatar
+                hideChevron
+                key={idx}
+                avatar={this.getFullUrl(post.user.img)}
+                title={post.user.name}
+                subtitle={<HTMLView value={post.content.html} />}
+              />
+            ))}
+          </List>
+          : <Spinner visible={isLoading} />
+        }
       </ScrollView>
     );
   }

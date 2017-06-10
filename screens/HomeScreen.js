@@ -2,6 +2,7 @@ import React from 'react';
 import { ScrollView } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import { getForumList } from '../utilities/forum';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default class HomeScreen extends React.Component {
   static route = {
@@ -14,6 +15,7 @@ export default class HomeScreen extends React.Component {
     super(props);
     this.state = {
       forums: [],
+      isLoading: true,
     };
   }
 
@@ -22,8 +24,9 @@ export default class HomeScreen extends React.Component {
   }
 
   async loadForumList() {
+    this.setState({ isLoading: true });
     const forums = await getForumList();
-    this.setState({ forums });
+    this.setState({ forums, isLoading: false });
   }
 
   openForum({ id, title }) {
@@ -31,17 +34,21 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
+    const { isLoading, forums } = this.state;
     return (
       <ScrollView>
-        <List>
-          {this.state.forums.map((l, i) => (
-            <ListItem
-              key={l.id}
-              title={l.title}
-              onPress={() => this.openForum(l)}
-            />
-          ))}
-        </List>
+        {!isLoading ? 
+          <List>
+            {forums.map((forum, i) => (
+              <ListItem
+                key={forum.id}
+                title={forum.title}
+                onPress={() => this.openForum(forum)}
+              />
+            ))}
+          </List>
+          : <Spinner visible={isLoading} />
+        }
       </ScrollView>
     );
   }

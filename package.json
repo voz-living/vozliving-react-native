@@ -1,6 +1,6 @@
 {
   "name": "voz-living-react-native",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "VOZLiving react native app",
   "author": "vozliving",
   "main": "main.js",
@@ -20,6 +20,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-17.0.0.tar.gz",
     "react-native-elements": "^0.12.2",
     "react-native-htmlview": "^0.9.0",
+    "react-native-loading-spinner-overlay": "^0.5.0",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
