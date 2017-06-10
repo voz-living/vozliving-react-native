@@ -28,17 +28,27 @@ export function parseThreadList(response) {
   return threads;
 }
 
+export function parsePageNum(response) {
+  const pageTexts = cheerio('.pagenav td.vbmenu_control', response);
+  if (pageTexts) {
+    const text = pageTexts.eq(0).text();
+    const match = text.match(/(\d+)\sof\s(\d+)/);
+    if (match) return match[2];
+  }
+  return Infinity;
+}
+
 export async function getThreadList(id, pageNum = 0) {
   try {
-    const url = pageNum > 0 ? `${FORUM_URL}/forumdisplay.php?f=${id}&page=${pageNum}` : `${FORUM_URL}/forumdisplay.php?f=${id}`;
+    const url = pageNum > 1 ? `${FORUM_URL}/forumdisplay.php?f=${id}&page=${pageNum}` : `${FORUM_URL}/forumdisplay.php?f=${id}`;
     const response = await GET(url);
-    return parseThreadList(response);
+    return [parseThreadList(response), parsePageNum(response)];
   } catch (error) {
     console.log({
       message: 'Can not get thread list!',
       error,
     });
-    return [];
+    return [[], 0];
   }
 }
 

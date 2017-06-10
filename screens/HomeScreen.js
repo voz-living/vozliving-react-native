@@ -24,9 +24,10 @@ export default class HomeScreen extends React.Component {
   }
 
   async loadForumList() {
-    this.setState({ isLoading: true });
-    const forums = await getForumList();
-    this.setState({ forums, isLoading: false });
+    this.setState({ isLoading: true }, async () => {
+      const forums = await getForumList();
+      this.setState({ forums, isLoading: false });
+    });
   }
 
   openForum({ id, title }) {

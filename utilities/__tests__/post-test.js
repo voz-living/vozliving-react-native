@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { parsePosts } from '../post';
+import { parsePosts, parsePageNum } from '../post';
 
 const htmlMock = fs.readFileSync(path.join(__dirname, './post-mock.html'), 'utf8');
 const htmlMock1 = fs.readFileSync(path.join(__dirname, './post-mock-1.html'), 'utf8');
@@ -38,6 +38,10 @@ describe('Post utils work as expected', () => {
     expect(posts.some(s => !s.content.html.indexOf('\t') === -1)).toBe(false);
     expect(posts.some(s => !s.content.html.indexOf('\r') === -1)).toBe(false);
   });
+
+  it('return page num', () => {
+    expect(parsePageNum(htmlMock)).toBe('3');
+  })
 });
 
 describe('Another post utils work as expected', () => {
@@ -72,6 +76,8 @@ describe('Another post utils work as expected', () => {
     expect(posts.some(s => !s.content.html.indexOf('\t') === -1)).toBe(false);
     expect(posts.some(s => !s.content.html.indexOf('\r') === -1)).toBe(false);
   });
-  
-  console.log(posts[1].content.html);
+
+  it('return page num', () => {
+    expect(parsePageNum(htmlMock)).toBe('3');
+  })
 });

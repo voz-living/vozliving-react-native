@@ -84,16 +84,26 @@ export function parsePosts(tid, response) {
   return posts;
 }
 
+export function parsePageNum(response) {
+  const pageTexts = cheerio('.pagenav td.vbmenu_control', response);
+  if (pageTexts) {
+    const text = pageTexts.eq(0).text();
+    const match = text.match(/(\d+)\sof\s(\d+)/);
+    if (match) return match[2];
+  }
+  return Infinity;
+}
+
 export async function getPostList(tid, pageNum = 0) {
   try {
     const url = pageNum > 0 ? `${THREAD_URL}${tid}&page=${pageNum}` : `${THREAD_URL}${tid}`;
     const response = await GET(url);
-    return parsePosts(tid, response);
+    return [parsePosts(tid, response), parsePageNum(response)];
   } catch (error) {
     console.log({
       message: 'Can not get posts!',
       error: error.toString(),
     });
-    return [];
+    return [[], 0];
   }
 }
