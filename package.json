@@ -5,7 +5,8 @@
   "author": "vozliving",
   "main": "main.js",
   "scripts": {
-    "test": "node node_modules/jest/bin/jest.js"
+    "test": "node node_modules/jest/bin/jest.js",
+    "devtool": "react-devtools"
   },
   "jest": {
     "preset": "jest-expo"
@@ -24,6 +25,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
-    "jest-expo": "~1.0.1"
+    "jest-expo": "~1.0.1",
+    "react-devtools": "^2.3.3"
   }
 }

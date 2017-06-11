@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Text, Button, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
+import { Button } from 'react-native-elements';
 
 const styles = StyleSheet.create({
-  button: { flexGrow: 2, height: 30, minWidth: 50 },
-  text: { flexGrow: 2, height: 30, alignItems: 'center', justifyContent: 'center' },
-  container: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center' },
-})
+  button: { flexGrow: 1, flexBasis: '15%', marginLeft: 0, marginRight: 0 },
+  text: { flexGrow: 3, height: 40, alignItems: 'center', justifyContent: 'center', flexBasis: '40%' },
+  container: { display: 'flex', flexDirection: 'row', height: 40 },
+});
 
 export default class Pagging extends Component {
   static defaultProps = {
@@ -26,30 +27,31 @@ export default class Pagging extends Component {
     return (
       <View style={styles.container}>
         <Button
-          title="<<" onPress={onFirstPageClick}
-          accessibilityLabel="Trang đầu"
-          style={styles.button}
+          icon={{ name: 'first-page' }}
+          onPress={onFirstPageClick}
+          containerViewStyle={styles.button}
           disabled={currentPage < 2}
+          style={{ margin: 0 }}
         />
         <Button
-          title="<" onPress={onPrevPageClick}
-          accessibilityLabel="Trang trước"
-          style={styles.button}
+          icon={{ name: 'chevron-left' }}
+          onPress={onPrevPageClick}
+          containerViewStyle={styles.button}
           disabled={currentPage < 2}
         />
         <View style={styles.text}>
           <Text>{currentPage} / {maxPage}</Text>
         </View>
         <Button
-          title=">" onPress={onNextPageClick}
-          accessibilityLabel="Trang tiếp theo"
-          style={styles.button}
+          icon={{ name: 'chevron-right' }}
+          onPress={onNextPageClick}
+          containerViewStyle={styles.button}
           disabled={currentPage + 1 > maxPage}
         />
         <Button
-          title=">>" onPress={onLastPageClick}
-          accessibilityLabel="Trang cuối"
-          style={styles.button}
+          icon={{ name: 'last-page' }}
+          onPress={onLastPageClick}
+          containerViewStyle={styles.button}
           disabled={currentPage + 1 > maxPage}
         />
       </View>

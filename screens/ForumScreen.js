@@ -61,7 +61,7 @@ export default class ForumScreen extends React.Component {
             refreshControl={
               <RefreshControl
                 refreshing={isLoading}
-                onRefresh={this.refresh.bind(this)}
+                onRefresh={() => this.refresh()}
               />
             }
           >

@@ -35,7 +35,7 @@ export function parsePageNum(response) {
     const match = text.match(/(\d+)\sof\s(\d+)/);
     if (match) return match[2];
   }
-  return Infinity;
+  return 1;
 }
 
 export async function getThreadList(id, pageNum = 0) {
