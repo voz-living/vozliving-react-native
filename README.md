@@ -24,6 +24,12 @@ If you prefer using terminal than development tools.
   - Start iOS simulator `exp start --ios`
   - That it!
 
+# Dev tools for react native
+  - `npm run devtool`
+
+# Test with Jest
+  - `npm run test`
+
 You may need to known:
   - https://github.com/jsdf/react-native-htmlview
   - https://github.com/react-native-training/react-native-elements
