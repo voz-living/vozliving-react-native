@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { ScrollView, RefreshControl, View } from 'react-native';
-import { List, ListItem } from 'react-native-elements';
+import { List } from 'react-native-elements';
 import { getPostList } from '../utilities/post';
-import HTMLView from 'react-native-htmlview';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Pagging from '../components/Pagging';
+import PostView from '../components/PostView';
 
 export default class ThreadScreen extends Component {
   static route = {
@@ -35,20 +35,13 @@ export default class ThreadScreen extends Component {
     });
   }
 
-  getFullUrl(imgUrl) {
-    if (!imgUrl) return null;
-    return { uri: `https://vozforums.com/${imgUrl}` };
-  }
-
   refresh() {
     this.loadPosts(this.props.route.params.id, this.state.currentPage);
   }
 
   goToPage(page) {
     if (page < 0 || page > this.state.maxPage) return;
-    this.setState({ currentPage: page }, () => {
-      this.refresh();
-    });
+    this.setState({ currentPage: page }, () => this.refresh());
   }
 
   render() {
@@ -65,14 +58,11 @@ export default class ThreadScreen extends Component {
               />
             }
           >
-            {posts.map((post, idx) => (
-              <ListItem
-                roundAvatar
-                hideChevron
-                key={idx}
-                avatar={this.getFullUrl(post.user.img)}
-                title={post.user.name}
-                subtitle={<HTMLView value={post.content.html} />}
+            {posts.map(post => (
+              <PostView
+                content={post.content}
+                user={post.user}
+                key={post.id}
               />
             ))}
           </ScrollView>

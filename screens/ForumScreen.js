@@ -1,4 +1,3 @@
-import Expo from 'expo';
 import React from 'react';
 import { ScrollView, RefreshControl, View } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
@@ -22,7 +21,7 @@ export default class ForumScreen extends React.Component {
       isLoading: true,
       maxPage: 1,
       currentPage: 1,
-    }
+    };
   }
   
   componentDidMount() {
@@ -42,9 +41,7 @@ export default class ForumScreen extends React.Component {
 
   goToPage(page) {
     if (page < 0 || page > this.state.maxPage) return;
-    this.setState({ currentPage: page }, () => {
-      this.refresh();
-    });
+    this.setState({ currentPage: page }, () => this.refresh());
   }
 
   refresh() {

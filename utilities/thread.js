@@ -33,7 +33,7 @@ export function parsePageNum(response) {
   if (pageTexts) {
     const text = pageTexts.eq(0).text();
     const match = text.match(/(\d+)\sof\s(\d+)/);
-    if (match) return match[2];
+    if (match) return parseInt(match[2], 10);
   }
   return 1;
 }

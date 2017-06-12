@@ -40,8 +40,8 @@ describe('Post utils work as expected', () => {
   });
 
   it('return page num', () => {
-    expect(parsePageNum(htmlMock)).toBe('3');
-  })
+    expect(parsePageNum(htmlMock)).toBe(3);
+  });
 });
 
 describe('Another post utils work as expected', () => {
@@ -78,6 +78,6 @@ describe('Another post utils work as expected', () => {
   });
 
   it('return page num', () => {
-    expect(parsePageNum(htmlMock)).toBe('3');
-  })
+    expect(parsePageNum(htmlMock)).toBe(3);
+  });
 });

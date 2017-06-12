@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
+import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
   button: { flexGrow: 1, flexBasis: '15%', marginLeft: 0, marginRight: 0 },
@@ -9,15 +10,6 @@ const styles = StyleSheet.create({
 });
 
 export default class Pagging extends Component {
-  static defaultProps = {
-    onFirstPageClick: () => {},
-    onPrevPageClick: () => {},
-    onNextPageClick: () => {},
-    onLastPageClick: () => {},
-    maxPage: Infinity,
-    currentPage: 1,
-  }
-
   render() {
     const {
       maxPage, currentPage, onFirstPageClick,
@@ -57,4 +49,22 @@ export default class Pagging extends Component {
       </View>
     );
   }
+}
+
+Pagging.propTypes = {
+  maxPage: PropTypes.number,
+  currentPage: PropTypes.number,
+  onFirstPageClick: PropTypes.func,
+  onPrevPageClick: PropTypes.func,
+  onNextPageClick: PropTypes.func,
+  onLastPageClick: PropTypes.func
+};
+
+Pagging.defaultProps = {
+  onFirstPageClick: () => {},
+  onPrevPageClick: () => {},
+  onNextPageClick: () => {},
+  onLastPageClick: () => {},
+  maxPage: 1,
+  currentPage: 1,
 }

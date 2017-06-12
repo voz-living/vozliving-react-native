@@ -1,3 +1,4 @@
+import _ from 'lodash';
 const offset = getTzOffset();
 
 function getTzOffset() {
@@ -34,4 +35,13 @@ export function parseDateTime(datetime, { separation=',' } = {}) {
     h, m, 0);
   finalDate.setMinutes(finalDate.getMinutes() + offset);
   return finalDate;
+}
+
+export function getTime(timeStamp) {
+  const date = new Date(timeStamp);
+  const [d, mm] = [date.getDate(), date.getMonth() + 1]
+    .map((x) => _.padStart(`${x}`, 2, '0'));
+  /* eslint-disable max-len */
+  return `${d}-${mm}-${date.getFullYear()}`;
+  /* eslint-enable max-len */
 }

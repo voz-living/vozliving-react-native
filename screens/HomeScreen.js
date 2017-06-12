@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { ScrollView } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import { getForumList } from '../utilities/forum';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-export default class HomeScreen extends React.Component {
+export default class HomeScreen extends Component {
   static route = {
     navigationBar: {
       visible: false,

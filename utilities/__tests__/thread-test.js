@@ -13,7 +13,7 @@ describe('Thread utils work as expected', () => {
 
   it('return page num', () => {
     const pageNum = parsePageNum(htmlMock);
-    expect(pageNum).toBe('35927');
+    expect(pageNum).toBe(35927);
   });
 });
 

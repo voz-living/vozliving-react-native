@@ -48,6 +48,29 @@ function parsePost($post, threadId) {
     // end process user info
     const $content = $userNcontent.eq(2).find('div[id^="post_message"]');
     post.title = $userNcontent.eq(2).find('td[id^="td_post_"] > div').eq(0).text().trim();
+
+    // clean quote to a div remove stupid table format
+    const quoteTables = $content.find('.voz-bbcode-quote');
+
+    if (quoteTables && quoteTables.length > 0) {
+      quoteTables.each((idx, table) => {
+        const quote = cheerio(table).find('tr td');
+        const wrap = cheerio('<div class="voz-bbcode-quote" style="background: #ddd; padding: 5px;"></div>');
+        const $table = cheerio(table);
+        $table.parent().css({ margin: '5px' });
+        $table.replaceWith(wrap.append(quote.contents()));
+      });
+    }
+    
+    // clean the quote link for user
+    const quoteLinks = $content.find('div a[rel="nofollow"]');
+    
+    if (quoteLinks && quoteLinks.length > 0) {
+      quoteLinks.each((idx, lnk) => {
+        cheerio(lnk).remove();
+      });
+    }
+
     post.content.text = $content.text().trim();
     post.content.html = $content.html();
 
@@ -89,7 +112,7 @@ export function parsePageNum(response) {
   if (pageTexts) {
     const text = pageTexts.eq(0).text();
     const match = text.match(/(\d+)\sof\s(\d+)/);
-    if (match) return match[2];
+    if (match) return parseInt(match[2], 10);
   }
   return 1;
 }
