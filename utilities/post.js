@@ -70,6 +70,14 @@ function parsePost($post, threadId) {
         cheerio(lnk).remove();
       });
     }
+    // save for images
+    const iamges = $content.find('img');
+
+    if (iamges && iamges.length > 0) {
+      iamges.each((idx, im) => {
+        cheerio(im).css({ 'max-width': '100%' });
+      });
+    }
 
     post.content.text = $content.text().trim();
     post.content.html = $content.html();
