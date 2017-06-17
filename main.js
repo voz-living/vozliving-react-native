@@ -1,16 +1,16 @@
 import Expo from 'expo';
-import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { NavigationProvider, StackNavigation } from '@expo/ex-navigation';
-import { FontAwesome } from '@expo/vector-icons';
+import React, { Component } from 'react';
+import { Provider as ReduxProvider } from 'react-redux';
+import AppComponent from './app';
+import Store from './reducers';
 
-import Router from './navigation/Router';
+import { FontAwesome } from '@expo/vector-icons';
 import cacheAssetsAsync from './utilities/cacheAssetsAsync';
 
-class AppContainer extends React.Component {
+class AppContainer extends Component {
   state = {
     appIsReady: false,
-  };
+  }
 
   componentWillMount() {
     this._loadAssetsAsync();
@@ -19,10 +19,10 @@ class AppContainer extends React.Component {
   async _loadAssetsAsync() {
     try {
       await cacheAssetsAsync({
-        images: [require('./assets/images/expo-wordmark.png')],
+        images: [
+        ],
         fonts: [
           FontAwesome.font,
-          { 'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf') },
         ],
       });
     } catch (e) {
@@ -35,37 +35,18 @@ class AppContainer extends React.Component {
       this.setState({ appIsReady: true });
     }
   }
-
+  
   render() {
     if (this.state.appIsReady) {
       return (
-        <View style={styles.container}>
-          <NavigationProvider router={Router}>
-            <StackNavigation
-              id="root"
-              initialRoute={Router.getRoute('rootNavigation')}
-            />
-          </NavigationProvider>
-
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
-        </View>
+        <ReduxProvider store={Store}>
+          <AppComponent />
+        </ReduxProvider>
       );
     } else {
       return <Expo.AppLoading />;
     }
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  statusBarUnderlay: {
-    height: 24,
-    backgroundColor: 'rgba(0,0,0,0.2)',
-  },
-});
 
 Expo.registerRootComponent(AppContainer);

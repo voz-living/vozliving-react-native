@@ -1,4 +1,4 @@
-import { WebView, View, Text, ViewPropTypes } from 'react-native';
+import { WebView, ViewPropTypes } from 'react-native';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -91,5 +91,5 @@ WebViewAutoHeight.propTypes = {
 };
 
 WebViewAutoHeight.defaultProps = {
-  minHeight: 100,
+  minHeight: 70,
 };

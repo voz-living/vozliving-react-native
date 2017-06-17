@@ -61,6 +61,7 @@ export default class ForumScreen extends React.Component {
                 onRefresh={() => this.refresh()}
               />
             }
+            style={{ marginTop: 0 }}
           >
             {threads.map(thread => (
               <ListItem

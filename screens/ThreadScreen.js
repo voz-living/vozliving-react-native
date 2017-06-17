@@ -5,6 +5,8 @@ import { getPostList } from '../utilities/post';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Pagging from '../components/Pagging';
 import PostView from '../components/PostView';
+import PostLongPressModal from '../components/PostLongPressModal';
+import ActionButton from 'react-native-action-button';
 
 export default class ThreadScreen extends Component {
   static route = {
@@ -21,6 +23,8 @@ export default class ThreadScreen extends Component {
       isLoading: true,
       maxPage: 1,
       currentPage: 1,
+      showPostModal: false,
+      selectedPost: null
     }
   }
   
@@ -44,6 +48,19 @@ export default class ThreadScreen extends Component {
     this.setState({ currentPage: page }, () => this.refresh());
   }
 
+  onLongPress(post) {
+    this.setState({ selectedPost: post, showPostModal: true });
+  }
+
+  onQuote(post) {
+    console.log('quote post', post);
+  }
+
+  openReplyScreen() {
+    const id = this.props.route.params.id;
+    this.props.navigator.push('reply', { id, title: `Re: ${this.props.route.params.title}` });
+  }
+
   render() {
     const { isLoading, posts, currentPage, maxPage } = this.state;
     return (
@@ -63,6 +80,7 @@ export default class ThreadScreen extends Component {
                 content={post.content}
                 user={post.user}
                 key={post.id}
+                onLongPress={() => this.onLongPress(post)}
               />
             ))}
           </ScrollView>
@@ -74,6 +92,17 @@ export default class ThreadScreen extends Component {
           onPrevPageClick={() => this.goToPage(currentPage - 1)}
           onNextPageClick={() => this.goToPage(currentPage + 1)}
           onLastPageClick={() => this.goToPage(maxPage)}
+        />
+        <PostLongPressModal
+          visible={this.state.showPostModal}
+          post={this.state.selectedPost}
+          onQuote={() => this.onQuote(this.state.selectedPost)}
+          onHideModal={() => this.setState({ showPostModal: false })}
+        />
+        <ActionButton
+          offsetY={60}
+          buttonColor="rgba(231,76,60,1)"
+          onPress={() => this.openReplyScreen()}
         />
       </View>
       : <Spinner visible={isLoading} />

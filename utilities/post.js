@@ -55,7 +55,7 @@ function parsePost($post, threadId) {
     if (quoteTables && quoteTables.length > 0) {
       quoteTables.each((idx, table) => {
         const quote = cheerio(table).find('tr td');
-        const wrap = cheerio('<div class="voz-bbcode-quote" style="background: #ddd; padding: 5px;"></div>');
+        const wrap = cheerio('<div class="voz-bbcode-quote" style="background: #ddd; padding: 5px; margin-bottom: 5px;"></div>');
         const $table = cheerio(table);
         $table.parent().css({ margin: '5px' });
         $table.replaceWith(wrap.append(quote.contents()));
@@ -86,7 +86,7 @@ function parsePost($post, threadId) {
     post.content.html = post.content.html.replace(/src="\/?image/g, `src="${FORUM_URL}/image`);
     // remove all \n \t \r things and comment
     // idea here is keep the html tag to render
-    post.content.html = post.content.html.replace(/\<!--.*-->|\t|\n|\r|\\r|\\t|\\n/gi, '');
+    post.content.html = post.content.html.replace(/<!--.*-->|\t|\n|\r|\\r|\\t|\\n/gi, '');
 
     // clean again
     post.content.html = post.content.html.trim();

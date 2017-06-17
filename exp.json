@@ -1,7 +1,7 @@
 {
-  "name": "voz-living-react-native",
-  "description": "No description",
-  "slug": "voz-living-react-native",
+  "name": "Voz Living",
+  "description": "Better Voz",
+  "slug": "vozliving",
   "privacy": "public",
   "sdkVersion": "17.0.0",
   "version": "1.0.0",
@@ -13,7 +13,7 @@
     "color": "#000000"
   },
   "loading": {
-    "icon": "./assets/icons/144.png",
+    "icon": "./assets/icons/256.png",
     "hideExponentText": false
   },
   "packagerOpts": {
@@ -21,5 +21,9 @@
   },
   "ios": {
     "supportsTablet": true
+  },
+  "android": {
+    "package": "com.vozliving.exp",
+    "versionCode": 1
   }
 }

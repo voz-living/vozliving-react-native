@@ -65,4 +65,5 @@ export {
   POST,
   PUT,
   headerNoCache,
+  POST_FORM,
 };
