@@ -24,7 +24,9 @@ export default class ThreadScreen extends Component {
       maxPage: 1,
       currentPage: 1,
       showPostModal: false,
-      selectedPost: null
+      selectedPost: null,
+      user: null,
+      secuirityToken: null,
     }
   }
   
@@ -34,8 +36,8 @@ export default class ThreadScreen extends Component {
 
   async loadPosts(id, page) {
     this.setState({ isLoading: true }, async () => {
-      const [posts, maxPage] = await getPostList(id, page);
-      this.setState({ posts, isLoading: false, maxPage });
+      const [posts, maxPage, user, secuirityToken] = await getPostList(id, page);
+      this.setState({ posts, isLoading: false, maxPage, user, secuirityToken });
     });
   }
 
@@ -53,12 +55,18 @@ export default class ThreadScreen extends Component {
   }
 
   onQuote(post) {
-    console.log('quote post', post);
+    const { id, title } = this.props.route.params;
+    const { user, secuirityToken } = this.state;
+    this.setState({ showPostModal: false }, () => {
+      const text = `[QUOTE=${user.name};${post.id}]${post.content.text}[/QUOTE]`;
+      this.props.navigator.push('reply', { id, title, user, secuirityToken, text });
+    });
   }
 
   openReplyScreen() {
-    const id = this.props.route.params.id;
-    this.props.navigator.push('reply', { id, title: `Re: ${this.props.route.params.title}` });
+    const { id, title } = this.props.route.params;
+    const { user, secuirityToken } = this.state;
+    this.props.navigator.push('reply', { id, title, user, secuirityToken });
   }
 
   render() {

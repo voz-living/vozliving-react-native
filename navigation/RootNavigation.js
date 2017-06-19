@@ -1,5 +1,4 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { Component } from 'react';
 import { Notifications } from 'expo';
 import { FontAwesome } from '@expo/vector-icons';
 import { StackNavigation, TabNavigation, TabNavigationItem } from '@expo/ex-navigation';
@@ -8,7 +7,7 @@ import Alerts from '../constants/Alerts';
 import Colors from '../constants/Colors';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
-export default class RootNavigation extends React.Component {
+export default class RootNavigation extends Component {
   componentDidMount() {
     // this._notificationSubscription = this._registerForPushNotifications();
   }
@@ -17,20 +16,21 @@ export default class RootNavigation extends React.Component {
     // this._notificationSubscription && this._notificationSubscription.remove();
   }
 
-  // render() {
-  //   return (
-  //     <TabNavigation tabBarHeight={56} initialTab="home">
-  //       <TabNavigationItem
-  //         id="home"
-  //         renderIcon={isSelected => this._renderIcon('home', isSelected)}>
-  //         <StackNavigation initialRoute="home" />
-  //       </TabNavigationItem>
-  //     </TabNavigation>
-  //   );
-  // }
-
   render() {
-    return <StackNavigation initialRoute="home" />;
+    return (
+      <TabNavigation tabBarHeight={56} initialTab="home">
+        <TabNavigationItem
+          id="home"
+          renderIcon={isSelected => this._renderIcon('home', isSelected)}>
+          <StackNavigation initialRoute="home" />
+        </TabNavigationItem>
+        <TabNavigationItem
+          id="login"
+          renderIcon={isSelected => this._renderIcon('user', isSelected)}>
+          <StackNavigation initialRoute="login" />
+        </TabNavigationItem>
+      </TabNavigation>
+    );
   }
 
   _renderIcon(name, isSelected) {

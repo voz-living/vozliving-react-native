@@ -8,7 +8,5 @@ export async function login(username, password) {
     vb_login_username: username,
     vb_login_password: password,
   });
-  console.log(Object.keys(this.fetch))
   return response.indexOf('Thank you for logging in') > -1;
 }
-

@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { ScrollView, View, TextInput, StyleSheet } from 'react-native';
-import { List, ListItem } from 'react-native-elements';
-import Spinner from 'react-native-loading-spinner-overlay';
+import { ScrollView, View, StyleSheet } from 'react-native';
+import { Button } from 'react-native-elements';
 import { AutoGrowingTextInput } from 'react-native-autogrow-textinput';
+import { quickPost } from '../utilities/post';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const styles = StyleSheet.create({
   container: { flexDirection: 'column', alignContent: 'flex-start' },
   topContainer: { padding: 10 },
   text: { borderColor: 'gray', borderWidth: 1, padding: 10 },
+  button: {}
 });
 
 export default class ReplyScreen extends Component {
@@ -20,9 +22,10 @@ export default class ReplyScreen extends Component {
   
   constructor(props) {
     super(props);
+    console.log();
     this.state = {
       isLoading: false,
-      text: '',
+      text: this.props.route.params.text || '',
     };
   }
 
@@ -30,8 +33,12 @@ export default class ReplyScreen extends Component {
 
   }
 
-  keyboardToolbarContent() {
-    
+  async onPressSubmit() {
+    const { id, user, secuirityToken } = this.props.route.params;
+    if (this.state.text.length > 10) {
+      const response = await quickPost(secuirityToken, user.id, id, this.state.text);
+      console.log(response);
+    }
   }
 
   render() {
@@ -45,6 +52,15 @@ export default class ReplyScreen extends Component {
                 style={styles.text}
                 value={this.state.text}
                 onChangeText={(text) => this.setState({ text })}
+              />
+            </View>
+            <View>
+              <Button
+                raised
+                icon={{ name: 'cached' }}
+                title='POST'
+                style={styles.button}
+                onPress={this.onPressSubmit.bind(this)}
               />
             </View>
           </View>

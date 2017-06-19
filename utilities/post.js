@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import cheerio from 'cheerio-without-node-native';
 
-import { GET } from './http';
+import { GET, POST_FORM } from './http';
 import { parseDateTime } from './index.js';
 
 const FORUM_URL = 'https://vozforums.com';
@@ -125,11 +125,31 @@ export function parsePageNum(response) {
   return 1;
 }
 
+export function parseUser(response) {
+  const userWrap = cheerio('.page>div>table td.alt2 strong a', response);
+  if (userWrap && userWrap.length > 0) {
+    return {
+      id: userWrap.attr('href').replace('member.php?u=', ''),
+      name: userWrap.text(),
+    }
+  }
+  return null;
+}
+
+export function parseSecurityToken(response) {
+  const securityTokenWraps = cheerio('input[name="securitytoken"]', response);
+  if (securityTokenWraps && securityTokenWraps.length > 0) {
+    const securityTokenWrap = securityTokenWraps.eq(0);
+    return securityTokenWrap.val();
+  }
+  return null;
+}
+
 export async function getPostList(tid, pageNum = 0) {
   try {
     const url = pageNum > 0 ? `${THREAD_URL}${tid}&page=${pageNum}` : `${THREAD_URL}${tid}`;
     const response = await GET(url);
-    return [parsePosts(tid, response), parsePageNum(response)];
+    return [parsePosts(tid, response), parsePageNum(response), parseUser(response), parseSecurityToken(response)];
   } catch (error) {
     console.log({
       message: 'Can not get posts!',
@@ -137,4 +157,15 @@ export async function getPostList(tid, pageNum = 0) {
     });
     return [[], 0];
   }
+}
+
+export async function quickPost(securitytoken, userId, threadId, message) {
+  const response = await POST_FORM(`${FORUM_URL}/newreply.php?do=postreply&t=${threadId}`, {
+    do: 'postreply',
+    loggedinuser: userId,
+    message: message,
+    securitytoken: securitytoken,
+    t: threadId,
+  });
+  return response;
 }

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { FormLabel, FormInput, Button } from 'react-native-elements';
 import { login } from '../utilities/user';
-import SideBarButton from '../components/SideBarButton';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const styles = StyleSheet.create({
@@ -15,7 +14,6 @@ export default class LoginScreen extends Component {
     navigationBar: {
       visible: true,
       title: 'Login',
-      renderLeft: () => <SideBarButton />
     },
   };
   

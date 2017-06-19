@@ -1,16 +1,16 @@
 import {
-  VOZ_LIVING_TOGGLE_MENU,
+  VOZ_LIVING_HIDE_LOGIN,
 } from '../constants/ActionTypes';
 
 const initState = {
-  isMenuOpen: false,
+  isHideLogin: false,
 };
 
 const actionsMap = {
-  [VOZ_LIVING_TOGGLE_MENU](state, action) {
-    let isMenuOpen = !state.isMenuOpen;
-    if (action.isMenuOpen) isMenuOpen = action.isMenuOpen;
-    return { ...state, isMenuOpen }
+  [VOZ_LIVING_HIDE_LOGIN](state, action) {
+    let isHideLogin = !state.isHideLogin;
+    if (action.isHideLogin) isHideLogin = action.isHideLogin;
+    return { ...state, isHideLogin }
   }
 }
 

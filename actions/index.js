@@ -1,14 +1,8 @@
 import {
-  VOZ_LIVING_INIT,
-  VOZ_LIVING_TOGGLE_MENU,
+  VOZ_LIVING_HIDE_LOGIN,
 } from '../constants/ActionTypes';
 
-export const init = (initState) => ({
-  ...initState,
-  type: VOZ_LIVING_INIT,
-});
-
-export const toggleMenu = ({ isMenuOpen }) => ({
-  type: VOZ_LIVING_TOGGLE_MENU,
-  isMenuOpen,
+export const toggleMenu = ({ isHideLogin }) => ({
+  type: VOZ_LIVING_HIDE_LOGIN,
+  isHideLogin,
 });

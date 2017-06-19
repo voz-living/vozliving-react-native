@@ -11,7 +11,7 @@ request.post({
   formData: formData
 }, function optionalCallback(err, httpResponse, body) {
   if (err) {
-    return console.error('upload failed:', err);
+    return console.error(err);
   }
-  console.log('Upload successful!  Server responded with:', body);
+  console.log('Body', body);
 });

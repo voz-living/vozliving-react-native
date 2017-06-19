@@ -2,17 +2,13 @@ import React, { Component } from 'react';
 import { ScrollView } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import { getForumList } from '../utilities/forum';
-import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
-import SideBarButton from '../components/SideBarButton';
 
-@connect(data => ({ isMenuOpen: data.vozliving.isMenuOpen }))
 export default class HomeScreen extends Component {
   static route = {
     navigationBar: {
       title: 'Home',
       visible: true,
-      renderLeft: () => <SideBarButton />
     },
   };
   
@@ -45,7 +41,7 @@ export default class HomeScreen extends Component {
     return (
       <ScrollView>
         {!isLoading ? 
-          <List>
+          <List style={{ marginTop: 0, paddingTop: 0 }}>
             {forums.map(forum => (
               <ListItem
                 key={forum.id}

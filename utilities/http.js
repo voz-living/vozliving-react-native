@@ -1,5 +1,3 @@
-import 'whatwg-fetch';
-
 function patchProtocal(url) {
   if (/^\/\//.test(url)) {
     return url.replace(/^/, window.location.protocol);
@@ -39,31 +37,8 @@ const POST_FORM = (url, formDataObj, options = {}) => {
   return POST(url, { ...options, body: formData });
 }
 
-const PUT = requestFactory({
-  method: 'put',
-  credentials: 'same-origin',
-  headers: new Headers({
-    'Content-Type': 'application/json',
-  }),
-});
-
-const PROXY_GET = (url, options = {}) =>
-  new Promise((resolve, reject) => {
-    chrome.runtime.sendMessage({ service: 'proxy', url, options }, (response) => {
-      if (response.resolve) return resolve(response.resolve);
-      reject(response.reject);
-    });
-  });
-
-const headerNoCache = new Headers();
-headerNoCache.append('pragma', 'no-cache');
-headerNoCache.append('cache-control', 'no-cache');
-
 export {
-  PROXY_GET,
   GET,
   POST,
-  PUT,
-  headerNoCache,
   POST_FORM,
 };
