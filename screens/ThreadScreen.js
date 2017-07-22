@@ -7,6 +7,7 @@ import Pagging from '../components/Pagging';
 import PostView from '../components/PostView';
 import PostLongPressModal from '../components/PostLongPressModal';
 import ActionButton from 'react-native-action-button';
+import { ERROR_NOT_LOGIN } from '../constants/Message';
 
 export default class ThreadScreen extends Component {
   static route = {
@@ -57,7 +58,12 @@ export default class ThreadScreen extends Component {
   onQuote(post) {
     const { id, title } = this.props.route.params;
     const { user, secuirityToken } = this.state;
+
     this.setState({ showPostModal: false }, () => {
+      if (!user || secuirityToken === 'guest') {
+        this.props.navigator.push('login', { message: ERROR_NOT_LOGIN });
+        return;
+      }
       const text = `[QUOTE=${user.name};${post.id}]${post.content.text}[/QUOTE]`;
       this.props.navigator.push('reply', { id, title, user, secuirityToken, text });
     });
@@ -66,6 +72,10 @@ export default class ThreadScreen extends Component {
   openReplyScreen() {
     const { id, title } = this.props.route.params;
     const { user, secuirityToken } = this.state;
+    if (!user || secuirityToken === 'guest') {
+      this.props.navigator.push('login', { message: ERROR_NOT_LOGIN });
+      return;
+    }
     this.props.navigator.push('reply', { id, title, user, secuirityToken });
   }
 

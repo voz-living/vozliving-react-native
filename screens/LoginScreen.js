@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { FormLabel, FormInput, Button } from 'react-native-elements';
 import { login } from '../utilities/user';
-import Spinner from 'react-native-loading-spinner-overlay';
+import { ERROR_LOGIN_FAIL } from '../constants/Message';
 
 const styles = StyleSheet.create({
   container: { flex: 1, flexDirection: 'column' },
-  button: { marginTop: 10 },
+  buttonContainer: { marginTop: 10 },
 });
 
 export default class LoginScreen extends Component {
@@ -20,13 +20,14 @@ export default class LoginScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      // username: 'npt96',
       username: '',
+      // password: 'thanh1',
       password: '',
       isLoading: false,
+      errorMessage: props.route.params.message || null,
     };
   }
-
-  componentDidMount() {}
 
   onChangeUsername(username) {
     this.setState({ username });
@@ -40,27 +41,31 @@ export default class LoginScreen extends Component {
     const isSuccess = await login(this.state.username, this.state.password);
     
     if (isSuccess) {
-
+      this.setState({ errorMessage: null }, () => {
+        this.props.navigator.push('home');
+      });
     } else {
-
+      this.setState({ errorMessage: ERROR_LOGIN_FAIL });
     }
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <FormLabel>Username</FormLabel>
-        <FormInput value={this.state.username} onChangeText={this.onChangeUsername.bind(this)}/>
-        <FormLabel>Password</FormLabel>
-        <FormInput value={this.state.password} secureTextEntry onChangeText={this.onChangePassword.bind(this)}/>
-        <Button
-          raised
-          icon={{name: 'cached'}}
-          title='LOGIN'
-          style={styles.button}
-          onPress={this.onPressSubmit.bind(this)}
-        />
-      </View>
+      <ScrollView>
+        <View style={styles.container}>
+          {this.state.errorMessage ? <Text style={{ padding: 20 }}>{this.state.errorMessage}</Text> : null}
+          <FormLabel>Username</FormLabel>
+          <FormInput value={this.state.username} onChangeText={(change) => this.onChangeUsername(change)}/>
+          <FormLabel>Password</FormLabel>
+          <FormInput value={this.state.password} secureTextEntry onChangeText={(change) => this.onChangePassword(change)}/>
+          <Button
+            raised
+            title='LOGIN'
+            containerViewStyle={styles.buttonContainer}
+            onPress={() => this.onPressSubmit()}
+          />
+        </View>
+      </ScrollView>
     );
   }
 }

@@ -64,6 +64,7 @@ export default class WebViewAutoHeight extends Component {
   render() {
     const { source, style, minHeight, ...otherProps } = this.props;
     const html = source.html;
+    const realHeight = Math.max(this.state.realContentHeight, minHeight);
 
     if (!html) {
       throw new Error("WebViewAutoHeight supports only source.html");
@@ -74,7 +75,7 @@ export default class WebViewAutoHeight extends Component {
         {...otherProps}
         source={{html: codeInject(html)}}
         scrollEnabled={false}
-        style={[style, {height: Math.max(this.state.realContentHeight, minHeight)}]}
+        style={[style, { height: realHeight }]}
         javaScriptEnabled
         onNavigationStateChange={this.handleNavigationChange.bind(this)}
       />

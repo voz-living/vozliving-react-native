@@ -13,5 +13,4 @@ request.post({
   if (err) {
     return console.error(err);
   }
-  console.log('Body', body);
 });

@@ -21,20 +21,24 @@
     "prop-types": "^15.5.10",
     "react": "16.0.0-alpha.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-17.0.0.tar.gz",
-    "react-native-action-button": "^2.6.10",
+    "react-native-action-button": "^2.7.0",
     "react-native-autogrow-textinput": "^4.0.0",
-    "react-native-blur": "^3.0.0",
+    "react-native-cookies": "^3.1.0",
     "react-native-elements": "^0.12.2",
-    "react-native-htmlview": "^0.9.0",
-    "react-native-loading-spinner-overlay": "^0.5.0"
+    "react-native-loading-spinner-overlay": "^0.5.0",
+    "react-native-material-textfield": "^0.6.1",
+    "react-redux": "^5.0.5",
+    "redux": "^3.7.0",
+    "redux-thunk": "^2.2.0",
+    "style-loader": "^0.18.2",
+    "svg-sprite-loader": "0.3.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "eslint": "^4.0.0",
-    "eslint-plugin-react": "^7.0.1",
+    "eslint-plugin-react": "^7.1.0",
     "eslint-plugin-react-native": "^2.3.2",
-    "form-data": "^2.2.0",
     "jest-expo": "~1.0.1",
     "react-devtools": "^2.3.3"
   }

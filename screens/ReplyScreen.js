@@ -22,7 +22,6 @@ export default class ReplyScreen extends Component {
   
   constructor(props) {
     super(props);
-    console.log();
     this.state = {
       isLoading: false,
       text: this.props.route.params.text || '',

@@ -3,11 +3,12 @@ import { ScrollView } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import { getForumList } from '../utilities/forum';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { saveToStore, getFromStore } from '../utilities/store';
 
 export default class HomeScreen extends Component {
   static route = {
     navigationBar: {
-      title: 'Home',
+      title: 'Trang Chủ',
       visible: true,
     },
   };
@@ -27,7 +28,11 @@ export default class HomeScreen extends Component {
 
   async loadForumList() {
     this.setState({ isLoading: true }, async () => {
-      const forums = await getForumList();
+      let forums = await getFromStore('forums');
+      if (!forums) {
+        forums = await getForumList();
+        saveToStore('forums', forums);
+      }
       this.setState({ forums, isLoading: false });
     });
   }

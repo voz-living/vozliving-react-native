@@ -1,11 +1,29 @@
 import React, { Component } from 'react';
 import { Notifications } from 'expo';
-import { FontAwesome } from '@expo/vector-icons';
-import { StackNavigation, TabNavigation, TabNavigationItem } from '@expo/ex-navigation';
+import { StackNavigation, DrawerNavigation, DrawerNavigationItem } from '@expo/ex-navigation';
+import { View, Text, StyleSheet } from 'react-native';
 
 import Alerts from '../constants/Alerts';
-import Colors from '../constants/Colors';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
+import Router from './Router';
+import { NAVBAR_STYLE, COLORS } from '../constants';
+
+
+const styles = StyleSheet.create({
+  header: {
+    height: 20,
+  },
+  selectedItemStyle: {
+    backgroundColor: COLORS.TOTALLY_WHITE,
+  },
+  selectedTitleText: {
+    color: COLORS.BLUE_DARK,
+  },
+  titleText: {
+    fontWeight: 'bold',
+    color: COLORS.TOTALLY_WHITE,
+  },
+});
 
 export default class RootNavigation extends Component {
   componentDidMount() {
@@ -16,30 +34,55 @@ export default class RootNavigation extends Component {
     // this._notificationSubscription && this._notificationSubscription.remove();
   }
 
-  render() {
+  _renderHeader() {
+    return <View style={styles.header}></View>;
+  }
+
+  _renderTitle(text, isSelected) {
     return (
-      <TabNavigation tabBarHeight={56} initialTab="home">
-        <TabNavigationItem
-          id="home"
-          renderIcon={isSelected => this._renderIcon('home', isSelected)}>
-          <StackNavigation initialRoute="home" />
-        </TabNavigationItem>
-        <TabNavigationItem
-          id="login"
-          renderIcon={isSelected => this._renderIcon('user', isSelected)}>
-          <StackNavigation initialRoute="login" />
-        </TabNavigationItem>
-      </TabNavigation>
+      <Text style={[styles.titleText, isSelected ? styles.selectedTitleText : {}]}>
+        {text}
+      </Text>
     );
   }
 
-  _renderIcon(name, isSelected) {
+  render() {
     return (
-      <FontAwesome
-        name={name}
-        size={32}
-        color={isSelected ? Colors.tabIconSelected : Colors.tabIconDefault}
-      />
+      <DrawerNavigation
+        id='main'
+        initialItem='home'
+        drawerWidth={300}
+        renderHeader={this._renderHeader}
+        drawerStyle={{ backgroundColor: COLORS.BLUE_DARK }}
+      >
+        <DrawerNavigationItem
+          id='home'
+          selectedStyle={styles.selectedItemStyle}
+          renderTitle={isSelected => this._renderTitle('Home', isSelected)}
+        >
+          <StackNavigation
+            id='home'
+            initialRoute={Router.getRoute('home')}
+            defaultRouteConfig={{
+              navigationBar: NAVBAR_STYLE,
+            }}
+          />
+        </DrawerNavigationItem>
+
+        <DrawerNavigationItem
+          id='login'
+          selectedStyle={styles.selectedItemStyle}
+          renderTitle={isSelected => this._renderTitle('Login', isSelected)}
+        >
+          <StackNavigation
+            id='login'
+            initialRoute={Router.getRoute('login')}
+            defaultRouteConfig={{
+              navigationBar: NAVBAR_STYLE,
+            }}
+          />
+        </DrawerNavigationItem>
+      </DrawerNavigation>
     );
   }
 
