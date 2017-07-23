@@ -8,7 +8,7 @@ import { saveToStore, getFromStore } from '../utilities/store';
 export default class HomeScreen extends Component {
   static route = {
     navigationBar: {
-      title: 'Trang Chủ',
+      title: 'VozLiving',
       visible: true,
     },
   };

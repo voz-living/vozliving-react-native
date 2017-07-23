@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { ScrollView, RefreshControl, View } from 'react-native';
-import { List } from 'react-native-elements';
+import { ScrollView, RefreshControl, View, LayoutAnimation } from 'react-native';
+import { List, Icon } from 'react-native-elements';
 import { getPostList } from '../utilities/post';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Pagging from '../components/Pagging';
@@ -28,7 +28,9 @@ export default class ThreadScreen extends Component {
       selectedPost: null,
       user: null,
       secuirityToken: null,
-    }
+      isShowActionButton: false,
+    };
+    this.scrollOffset = 0;
   }
   
   componentDidMount() {
@@ -79,8 +81,31 @@ export default class ThreadScreen extends Component {
     this.props.navigator.push('reply', { id, title, user, secuirityToken });
   }
 
+  onScroll(event){
+    // https://gist.github.com/mmazzarolo/cfd467436f9d110e94a685b06eb3900f
+    const CustomLayoutLinear = {
+      duration: 100,
+      create: { type: LayoutAnimation.Types.linear, property: LayoutAnimation.Properties.opacity },
+      update: { type: LayoutAnimation.Types.linear, property: LayoutAnimation.Properties.opacity },
+      delete: { type: LayoutAnimation.Types.linear, property: LayoutAnimation.Properties.opacity },
+    };
+    // Check if the user is scrolling up or down by confronting the new scroll position with your own one
+    const currentOffset = event.nativeEvent.contentOffset.y;
+    const direction = (currentOffset > 0 && currentOffset > this.scrollOffset)
+      ? 'down'
+      : 'up';
+    // If the user is scrolling down (and the action-button is still visible) hide it
+    const isShowActionButton = direction === 'up'
+    if (isShowActionButton !== this.state.isShowActionButton) {
+      LayoutAnimation.configureNext(CustomLayoutLinear);
+      this.setState({ isShowActionButton });
+    }
+    // Update your scroll position
+    this.scrollOffset = currentOffset;
+  }
+
   render() {
-    const { isLoading, posts, currentPage, maxPage } = this.state;
+    const { isLoading, posts, currentPage, maxPage, isShowActionButton } = this.state;
     return (
       !isLoading ?
       <View style={{ flex: 1, flexDirection: 'column' }}>
@@ -92,6 +117,8 @@ export default class ThreadScreen extends Component {
                 onRefresh={this.refresh.bind(this)}
               />
             }
+            onScroll={(event) => this.onScroll(event)}
+            scrollEventThrottle={100}
           >
             {posts.map(post => (
               <PostView
@@ -117,11 +144,18 @@ export default class ThreadScreen extends Component {
           onQuote={() => this.onQuote(this.state.selectedPost)}
           onHideModal={() => this.setState({ showPostModal: false })}
         />
+        {isShowActionButton ?
         <ActionButton
           offsetY={60}
           buttonColor="rgba(231,76,60,1)"
-          onPress={() => this.openReplyScreen()}
-        />
+        >
+          <ActionButton.Item
+            buttonColor='#9b59b6'
+            title='New Reply'
+            onPress={() => this.openReplyScreen()}>
+            <Icon name="reply" />
+          </ActionButton.Item>
+        </ActionButton> : null}
       </View>
       : <Spinner visible={isLoading} />
     );
