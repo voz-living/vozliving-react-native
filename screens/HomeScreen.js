@@ -64,7 +64,7 @@ export default class HomeScreen extends Component {
                 key={forum.id}
                 title={forum.title}
                 leftIcon={<Icon onPress={() => this.toggleFavorite(forum)} name={forum.isFavorite ? 'star' : 'star-border'}/>}
-                openForum={() => this.openForum(forum)}
+                onPress={() => this.openForum(forum)}
               />
             ))}
           </List>
