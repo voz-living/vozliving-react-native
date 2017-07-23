@@ -58,7 +58,7 @@ export default class RootNavigation extends Component {
         <DrawerNavigationItem
           id='home'
           selectedStyle={styles.selectedItemStyle}
-          renderTitle={isSelected => this._renderTitle('Home', isSelected)}
+          renderTitle={isSelected => this._renderTitle('Trang chủ', isSelected)}
         >
           <StackNavigation
             id='home'
@@ -72,7 +72,7 @@ export default class RootNavigation extends Component {
         <DrawerNavigationItem
           id='login'
           selectedStyle={styles.selectedItemStyle}
-          renderTitle={isSelected => this._renderTitle('Login', isSelected)}
+          renderTitle={isSelected => this._renderTitle('Đăng nhập', isSelected)}
         >
           <StackNavigation
             id='login'

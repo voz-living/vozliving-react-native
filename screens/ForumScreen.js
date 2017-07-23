@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, ScrollView, RefreshControl, View } from 'react-native';
+import { TouchableHighlight, ScrollView, RefreshControl, View } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import { getThreadList } from '../utilities/thread';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -48,6 +48,10 @@ export default class ForumScreen extends React.Component {
     this.loadThreadList(this.threadId, this.state.currentPage);
   }
 
+  onLongPress(threadId) {
+    // TO DO save thread
+  }
+
   render() {
     const { isLoading, threads, currentPage, maxPage } = this.state;
     const nonStickyThreads = threads.filter(t => !t.isSticky);
@@ -65,11 +69,18 @@ export default class ForumScreen extends React.Component {
             style={{ marginTop: 0 }}
           >
             {nonStickyThreads.map(thread => (
-              <ListItem
+              <TouchableHighlight
                 key={thread.id}
-                title={thread.title}
-                onPress={() => this.openThread(thread)}
-              />
+                onLongPress={() => this.onLongPress(thread.id)}
+                underlayColor={'#ddd'}
+              >
+                <View>
+                  <ListItem
+                    title={thread.title}
+                    onPress={() => this.openThread(thread)}
+                  />
+                </View>
+              </TouchableHighlight>
             ))}
           </ScrollView>
         </List>

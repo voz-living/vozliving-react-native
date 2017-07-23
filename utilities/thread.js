@@ -25,7 +25,6 @@ export function parseThreadList(response) {
     
     threads.push({ id, pageNum: parseInt(lastPage, 10), title, isSticky });
   });
-  console.log(threads);
   return threads;
 }
 

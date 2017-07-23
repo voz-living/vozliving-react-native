@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ScrollView } from 'react-native';
-import { List, ListItem } from 'react-native-elements';
+import { List, ListItem, Icon } from 'react-native-elements';
 import { getForumList } from '../utilities/forum';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { saveToStore, getFromStore } from '../utilities/store';
@@ -41,17 +41,30 @@ export default class HomeScreen extends Component {
     this.props.navigator.push('forum', { id, title });
   }
 
+  toggleFavorite(forum) {
+    const { forums } = this.state;
+    const found = forums.find(f => f.id === forum.id);
+    found.isFavorite = !found.isFavorite;
+    saveToStore('forums', forums).then(() => {
+      this.setState({ forums });
+    });
+  }
+
   render() {
     const { isLoading, forums } = this.state;
+    const favorite = forums.filter(f => f.isFavorite);
+    const sorted = favorite.concat(forums.filter(f => !f.isFavorite));
+
     return (
       <ScrollView>
         {!isLoading ? 
           <List style={{ marginTop: 0, paddingTop: 0 }}>
-            {forums.map(forum => (
+            {sorted.map(forum => (
               <ListItem
                 key={forum.id}
                 title={forum.title}
-                onPress={() => this.openForum(forum)}
+                leftIcon={<Icon onPress={() => this.toggleFavorite(forum)} name={forum.isFavorite ? 'star' : 'star-border'}/>}
+                openForum={() => this.openForum(forum)}
               />
             ))}
           </List>

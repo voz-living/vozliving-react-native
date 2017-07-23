@@ -13,7 +13,7 @@ export default class LoginScreen extends Component {
   static route = {
     navigationBar: {
       visible: true,
-      title: 'Login',
+      title: 'Đăng nhập',
     },
   };
   
@@ -52,9 +52,9 @@ export default class LoginScreen extends Component {
       <ScrollView>
         <View style={styles.container}>
           {this.state.errorMessage ? <Text style={{ padding: 20 }}>{this.state.errorMessage}</Text> : null}
-          <FormLabel>Username</FormLabel>
+          <FormLabel>Tên đăng nhập</FormLabel>
           <FormInput value={this.state.username} onChangeText={(change) => this.onChangeUsername(change)}/>
-          <FormLabel>Password</FormLabel>
+          <FormLabel>Mật khẩu</FormLabel>
           <FormInput value={this.state.password} secureTextEntry onChangeText={(change) => this.onChangePassword(change)}/>
           <Button
             raised
