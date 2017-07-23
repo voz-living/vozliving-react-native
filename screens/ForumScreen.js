@@ -50,6 +50,7 @@ export default class ForumScreen extends React.Component {
 
   render() {
     const { isLoading, threads, currentPage, maxPage } = this.state;
+    const nonStickyThreads = threads.filter(t => !t.isSticky);
     return (
       !isLoading ?
       <View style={{ flex: 1, flexDirection: 'column' }}>
@@ -63,7 +64,7 @@ export default class ForumScreen extends React.Component {
             }
             style={{ marginTop: 0 }}
           >
-            {threads.map(thread => (
+            {nonStickyThreads.map(thread => (
               <ListItem
                 key={thread.id}
                 title={thread.title}

@@ -1,7 +1,6 @@
 import cheerio from 'cheerio-without-node-native';
 
 import { GET } from './http';
-import { parseDateTime } from './index.js';
 
 const FORUM_URL = 'https://vozforums.com';
 
@@ -11,6 +10,7 @@ export function parseThreadList(response) {
   threadTDs.each((idx, td) => {
     const id = td.attribs.id.match(/\d+/)[0];
     const titleLink = cheerio(td).find('>div a[id^="thread_title_"]');
+    const isSticky = titleLink.attr('class') === 'vozsticky';
     const title = titleLink ? titleLink.text() : '';
 
     const links = cheerio(td).find('>div span > a');
@@ -23,8 +23,9 @@ export function parseThreadList(response) {
       if (match) lastPage = match[1];
     }
     
-    threads.push({ id, pageNum: parseInt(lastPage, 10), title });
+    threads.push({ id, pageNum: parseInt(lastPage, 10), title, isSticky });
   });
+  console.log(threads);
   return threads;
 }
 
