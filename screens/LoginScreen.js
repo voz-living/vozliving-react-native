@@ -20,9 +20,7 @@ export default class LoginScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // username: 'npt96',
       username: '',
-      // password: 'thanh1',
       password: '',
       isLoading: false,
       errorMessage: props.route.params.message || null,

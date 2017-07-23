@@ -1,4 +1,4 @@
-import { WebView, ViewPropTypes } from 'react-native';
+import { WebView, ViewPropTypes, Animated } from 'react-native';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -49,36 +49,42 @@ export default class WebViewAutoHeight extends Component {
     this.state = {
       realContentHeight: props.minHeight,
     };
+    this.opacityAnimatedValue = new Animated.Value(0);
   }
 
   handleNavigationChange(navState) {
     if (navState.title) {
       const realContentHeight = parseInt(navState.title, 10) || 0; // turn NaN to 0
-      this.setState({realContentHeight});
-    }
-    if (typeof this.props.onNavigationStateChange === "function") {
-      this.props.onNavigationStateChange(navState);
+      this.setState({ realContentHeight }, () => {
+        Animated.timing(this.opacityAnimatedValue, {
+          toValue: 1,
+          duration: 200
+        }).start();
+      });
     }
   }
 
   render() {
     const { source, style, minHeight, ...otherProps } = this.props;
     const html = source.html;
-    const realHeight = Math.max(this.state.realContentHeight, minHeight);
+    const { realContentHeight } = this.state;
+    const realHeight = Math.max(realContentHeight, minHeight);
 
     if (!html) {
       throw new Error("WebViewAutoHeight supports only source.html");
     }
 
     return (
-      <WebView
-        {...otherProps}
-        source={{html: codeInject(html)}}
-        scrollEnabled={false}
-        style={[style, { height: realHeight }]}
-        javaScriptEnabled
-        onNavigationStateChange={this.handleNavigationChange.bind(this)}
-      />
+      <Animated.View style={{ opacity: this.opacityAnimatedValue }}>
+        <WebView
+          {...otherProps}
+          source={{html: codeInject(html)}}
+          scrollEnabled={false}
+          style={[style, { height: realHeight }]}
+          javaScriptEnabled
+          onNavigationStateChange={this.handleNavigationChange.bind(this)}
+        />
+      </Animated.View>
     );
   }
 }
